@@ -2,15 +2,28 @@
 ---
 - hosts: local
   become: yes
+  vars:
+    dbname: reddit-db
+    dbuser: crawler
+    dbpassword: crawler
+
   tasks:
-  - name: update cache 
+  - name: update cache
     apt: update_cache=yes
   - name: install packages if not installed
     apt: name={{item}}
     with_items:
         - postgresql
         - libpq-dev
-        - python-psycopg2
   - name: create database
     become_user: postgres
-    postgresql_db: name=reddit-db
+    postgresql_db: name={{dbname}}
+  - name: give user access to database
+    become_user: postgres
+    postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+  - name: limit user access
+    become_user: postgres
+    postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+  - name: isolate user access
+    become_user: postgres
+    postgresql_privs: db={{dbname}} role=PUBLIC type=database priv=ALL state=absent

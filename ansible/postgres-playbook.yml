@@ -1,0 +1,16 @@
+#Install postgres, create db
+---
+- hosts: local
+  become: yes
+  tasks:
+  - name: update cache 
+    apt: update_cache=yes
+  - name: install packages if not installed
+    apt: name={{item}}
+    with_items:
+        - postgresql
+        - libpq-dev
+        - python-psycopg2
+  - name: create database
+    become_user: postgres
+    postgresql_db: name=reddit-db

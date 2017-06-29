@@ -4,8 +4,10 @@
   become: yes
   vars:
     dbname: reddit-db
-    dbuser: crawler
-    dbpassword: crawler
+
+  vars_prompt:
+    - dbuser: "dbuser"
+    - dbpassword: "dbpassword"
 
   tasks:
   - name: update cache
@@ -15,6 +17,9 @@
     with_items:
         - postgresql
         - libpq-dev
+  - name: remove database
+    become_user: postgres
+    postgresql_db: name={{dbname}} state=absent
   - name: create database
     become_user: postgres
     postgresql_db: name={{dbname}}

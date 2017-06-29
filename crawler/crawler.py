@@ -11,22 +11,29 @@ posts = posts_soup.find_all("div", class_ = "thing")
 
 # soup every post
 for post in posts:
+    post = posts[8]
+    post_id = post['id']
+    author = post['data-author']
+    comments_number = post['data-comments-count']
+    score = post['data-score']
+    timestamp = post['data-timestamp']
+    print(post_id)
+    print(author)
     title_object = post.find("p", class_="title")
     tag_object = post.find("p", class_="tagline")
     comments_object = post.find("li", class_="first")
+    print(comments_number)
+    print(timestamp)
+    print(score)
+    sys.exit(0)
 
     title = title_object.a.get_text()
     href = title_object.a['href']
     if 'data-outbound-url' in title_object.a:
         post_link = title_object.a['data-outbound-url']
 
-    author = tag_object.a.get_text()
-    time = tag_object.time['datetime']
-    count_comments = 0
-    comments_number = comments_object.a.get_text().split(" ")
-
     # soup the post comment
-    if len(comments_number) == 2:
+    if len(comments_number) > 0:
         count_comments = int(comments_number[0])
         r  = requests.get(comments_object.a['href'], headers=HEADERS)
         comments_soup = BeautifulSoup(r.text, "html.parser")

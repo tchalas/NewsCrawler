@@ -4,7 +4,7 @@ import psycopg2
 
 ## read config
 CONFIG = configparser.RawConfigParser()
-CONFIG.read('config.cfg')
+CONFIG.read('../config.cfg')
 
 # get values from config file
 dbname = CONFIG.get('db', 'dbname')
@@ -18,10 +18,11 @@ cur = conn.cursor()
 
 # add tables
 cur.execute('DROP TABLE IF EXISTS "user" CASCADE;')
-cur.execute('CREATE TABLE "user" (user_id varchar PRIMARY KEY NOT NULL, username varchar UNIQUE);')
+cur.execute('CREATE TABLE "user" (username varchar PRIMARY KEY);')
 
 cur.execute('DROP TABLE IF EXISTS "post" CASCADE;')
-cur.execute('CREATE TABLE "post" (post_id varchar PRIMARY KEY  NOT NULL, username varchar NOT NULL, \
+cur.execute('CREATE TABLE "post" (post_id varchar PRIMARY KEY, username varchar NOT NULL, \
+             comments_count int, score int, title varchar, url varchar, posted timestamp, \
              FOREIGN KEY (username) REFERENCES "user" (username) ON UPDATE CASCADE ON DELETE CASCADE);')
 
 cur.execute('DROP TABLE IF EXISTS "comment" CASCADE;')

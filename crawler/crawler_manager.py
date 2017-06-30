@@ -1,3 +1,4 @@
-import crawler_tasks
+import crawler.crawler_tasks as crawler_tasks
 
-crawler_tasks.craw_reddit.delay("https://www.reddit.com/r/Python", 1)
+def crawl():
+    crawler_tasks.craw_reddit.delay("https://www.reddit.com/r/Python", 1)

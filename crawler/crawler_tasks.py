@@ -6,7 +6,7 @@ import psycopg2
 
 ## read config
 CONFIG = configparser.RawConfigParser()
-CONFIG.read('../config.cfg')
+CONFIG.read('./config.cfg')
 
 # get values from config file
 dbname = CONFIG.get('db', 'dbname')

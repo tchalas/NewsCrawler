@@ -30,7 +30,7 @@ def serve():
 
 
 def test():
-    createdb(drop_first=True)
+    #createdb(drop_first=True)
     """Runs unit tests"""
     tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
     sys.exit(tests)

@@ -7,7 +7,7 @@ r  = requests.get("https://www.reddit.com/r/Python", headers=HEADERS)
 s = r.text
 posts_soup = BeautifulSoup(s, "html.parser")
 next_url = posts_soup.find("span", class_ = "next-button").a['href']
-posts = posts_soup.find_all("div", class_ = "thing")
+posts = posts_soup.find_all("div", class_ = "even")
 
 # soup every post
 for post in posts:
@@ -17,6 +17,7 @@ for post in posts:
     comments_number = post['data-comments-count']
     score = post['data-score']
     timestamp = post['data-timestamp']
+    print(post)
     print(post_id)
     print(author)
     title_object = post.find("p", class_="title")
@@ -34,7 +35,6 @@ for post in posts:
 
     # soup the post comment
     if len(comments_number) > 0:
-        count_comments = int(comments_number[0])
         r  = requests.get(comments_object.a['href'], headers=HEADERS)
         comments_soup = BeautifulSoup(r.text, "html.parser")
         comments = comments_soup.find_all("div", class_ = "thing")

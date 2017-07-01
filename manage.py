@@ -5,9 +5,15 @@ import os, shutil
 from flask_script import Manager
 import db.setup as db
 import api.app as crawlApi
+import crawler
 import crawler.crawler_manager as crawler_manager
+import configparser
+import os
 
-#@manager.command
+## read config
+CONFIG = configparser.RawConfigParser()
+CONFIG.read('./config.cfg')
+
 def createdb(drop_first=True):
     """Creates the database."""
     if drop_first:
@@ -24,6 +30,7 @@ def serve():
 
 
 def test():
+    createdb(drop_first=True)
     """Runs unit tests"""
     tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
     sys.exit(tests)
@@ -37,3 +44,5 @@ if __name__ == "__main__":
    if action == "crawl":
        pages = sys.argv[2]
        crawl(pages)
+   if action == "test":
+       test()

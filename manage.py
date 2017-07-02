@@ -32,10 +32,12 @@ def serve():
 
 
 def test():
+    CONFIG.set('default', 'env', 'test')
+    with open('config.cfg', 'w') as configfile:
+        CONFIG.write(configfile)
     createdb(drop_first=True)
     """Runs unit tests"""
     tests.run()
-    sys.exit(tests)
 
 if __name__ == "__main__":
    action = sys.argv[1]
@@ -50,3 +52,6 @@ if __name__ == "__main__":
        crawl(pages)
    if action == "test":
        test()
+   CONFIG.set('default', 'env', 'dev')
+   with open('config.cfg', 'w') as configfile:
+        CONFIG.write(configfile)

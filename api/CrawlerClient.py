@@ -44,5 +44,16 @@ class CrawlerClient(object):
         #print(res)
         return res
 
+    def get_top_posts_by_comments(self, post_type):
+        if(post_type == "all"):
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" order by comments_count desc limit 10;') # order by score desc limit 10',)
+        elif(post_type == "discussion"):
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" where domain = %s OR domain = %s order by comments_count desc limit 10;', ("self.Python","i.redd.it",)) # order by score desc limit 10',)
+        else:
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" where domain != %s AND domain != %s order by comments_count desc limit 10;', ("self.Python","i.redd.it",)) # order by score desc limit 10',)
+        res = self.cur.fetchall()
+        #print(res)
+        return res
+
     def test(self):
         return "lele"

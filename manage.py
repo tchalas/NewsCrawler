@@ -8,6 +8,7 @@ import api.app as crawlApi
 import crawler
 import crawler.crawler_manager as crawler_manager
 import configparser
+import tests
 import os
 
 ## read config
@@ -33,7 +34,8 @@ def serve():
 def test():
     createdb(drop_first=True)
     """Runs unit tests"""
-    tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
+    #tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
+    tests.run()
     sys.exit(tests)
 
 if __name__ == "__main__":

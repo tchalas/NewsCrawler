@@ -6,10 +6,17 @@ CONFIG = configparser.RawConfigParser()
 CONFIG.read('./config.cfg')
 
 # get values from config file
-dbname = CONFIG.get('db', 'dbname')
-dbuser = CONFIG.get('db', 'dbuser')
-dbpassword = CONFIG.get('db', 'dbpassword')
-dbhost = CONFIG.get('db', 'dbhost')
+db_section = "db"
+env = CONFIG.get('default', 'env')
+
+if env == "test":
+    db_section = "testdb"
+
+# get values from config file
+dbname = CONFIG.get(db_section, 'dbname')
+dbuser = CONFIG.get(db_section, 'dbuser')
+dbpassword = CONFIG.get(db_section, 'dbpassword')
+dbhost = CONFIG.get(db_section, 'dbhost')
 
 class CrawlerClient(object):
     conn = None

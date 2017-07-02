@@ -16,7 +16,6 @@ class CrawlerClient(object):
     cur = None
 
     def __init__(self):
-        print("init")
         self.conn = psycopg2.connect(dbname=dbname, user=dbuser, host=dbhost, password=dbpassword)
         self.cur = self.conn.cursor()
 
@@ -27,9 +26,15 @@ class CrawlerClient(object):
         self.conn.close()
 
 
-    def get_top_posts(self):
-        res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" order by score desc limit 10;')# order by score desc limit 10',)
+    def get_top_posts_by_poins(self, post_type):
+        if(post_type == "all"):
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" order by score desc limit 10;') # order by score desc limit 10',)
+        elif(post_type == "discussion"):
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" where domain = %s OR domain = %s order by score desc limit 10;', ("self.Python","i.redd.it",)) # order by score desc limit 10',)
+        else:
+            res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" where domain != %s AND domain != %s order by score desc limit 10;', ("self.Python","i.redd.it",)) # order by score desc limit 10',)
         res = self.cur.fetchall()
+        #print(res)
         return res
 
     def test(self):

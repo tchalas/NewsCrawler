@@ -3,7 +3,7 @@
 - hosts: local
   become: yes
   vars:
-    dbname: reddit-db
+    dbname: test-db
 
   vars_prompt:
     - dbuser: "dbuser"

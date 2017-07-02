@@ -62,10 +62,11 @@ def craw_post(post_html):
     href = title_object.a['href']
     time = post.find("p", class_="tagline").time['datetime']
     print("ISERTING")
+    print(domain)
     cur.execute('INSERT INTO "reddit-user" (username) VALUES (%s) ON CONFLICT DO NOTHING',(author, ))
-    cur.execute('INSERT INTO "reddit-post" (post_id, username, title, score, url, posted, comments_count) \
-                         VALUES (%s, %s, %s, %s, %s, %s, %s) ON CONFLICT (post_id) DO UPDATE SET score = %s, comments_count = %s ', \
-                         (post_id, author, title, score, href, time, comments_count, score, comments_count,))
+    cur.execute('INSERT INTO "reddit-post" (post_id, username, title, domain, score, url, posted, comments_count) \
+                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (post_id) DO UPDATE SET score = %s, comments_count = %s ', \
+                         (post_id, author, title, domain, score, href, time, comments_count, score, comments_count,))
     conn.commit()
     #if comments_count > 0:
     #    comments = post.find("li", class_="first")

@@ -16,6 +16,7 @@ CONFIG.read('./config.cfg')
 
 def createdb(drop_first=True):
     """Creates the database."""
+    print("db")
     if drop_first:
         db.drop_db()
     db.create_db()
@@ -30,14 +31,16 @@ def serve():
 
 
 def test():
-    #createdb(drop_first=True)
+    createdb(drop_first=True)
     """Runs unit tests"""
     tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
     sys.exit(tests)
 
 if __name__ == "__main__":
    action = sys.argv[1]
+   print(action)
    if action == "createdb":
+       print(action)
        createdb()
    if action == "serve":
        serve()

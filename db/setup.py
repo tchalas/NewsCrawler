@@ -33,8 +33,6 @@ def drop_db():
 
 def create_db():
     # connect to db
-    print("vrea")
-    print(dbname)
     conn = psycopg2.connect(dbname=dbname, user=dbuser, host=dbhost, password=dbpassword)
     cur = conn.cursor()
 
@@ -48,7 +46,7 @@ def create_db():
                  FOREIGN KEY (username) REFERENCES "reddit-user" (username) ON UPDATE CASCADE ON DELETE CASCADE);')
 
     #cur.execute('DROP TABLE IF EXISTS "comment" CASCADE;')
-    cur.execute('CREATE TABLE "reddit-comment" (id serial PRIMARY KEY, username varchar NOT NULL, post_id varchar NOT NULL, \
+    cur.execute('CREATE TABLE "reddit-comment" (comment_id varchar PRIMARY KEY, votes int, username varchar NOT NULL, post_id varchar NOT NULL, \
                  FOREIGN KEY (username) REFERENCES "reddit-user" (username) ON UPDATE CASCADE ON DELETE CASCADE, \
                  FOREIGN KEY (post_id) REFERENCES "reddit-post" (post_id) ON UPDATE CASCADE ON DELETE CASCADE);')
 

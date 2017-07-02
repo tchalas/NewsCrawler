@@ -24,7 +24,7 @@ def createdb(drop_first=True):
 
 def crawl(pages):
     """ Starts crawling """
-    crawler_manager.crawl()
+    crawler_manager.crawl(pages)
 
 def serve():
     """ Start the Api """
@@ -34,7 +34,6 @@ def serve():
 def test():
     createdb(drop_first=True)
     """Runs unit tests"""
-    #tests = subprocess.call(['python', '-c', 'import tests; tests.run()'])
     tests.run()
     sys.exit(tests)
 

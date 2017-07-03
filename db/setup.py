@@ -20,6 +20,8 @@ dbhost = CONFIG.get(db_section, 'dbhost')
 
 def drop_db():
     # connect to db
+    print("CLEA")
+    print(dbname)
     conn = psycopg2.connect(dbname=dbname, user=dbuser, host=dbhost, password=dbpassword)
     cur = conn.cursor()
     # drop tables

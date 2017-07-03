@@ -1,6 +1,6 @@
 import json
 from flask import Blueprint, request, session, abort, jsonify
-from api.CrawlerClient import CrawlerClient
+from api.crawler_client import CrawlerClient
 import crawler.crawler_manager as crawler_manager
 
 crawl_api = Blueprint('crawl_api', __name__, url_prefix='/crawl_api')

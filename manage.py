@@ -38,11 +38,11 @@ def test():
     createdb(drop_first=True)
     """Runs unit tests"""
     tests.run()
+    CONFIG.set('default', 'env', 'dev')
+    with open('config.cfg', 'w') as configfile:
+        CONFIG.write(configfile)
 
 if __name__ == "__main__":
-   CONFIG.set('default', 'env', 'dev')
-   with open('config.cfg', 'w') as configfile:
-       CONFIG.write(configfile)
    action = sys.argv[1]
    print(action)
    if action == "createdb":

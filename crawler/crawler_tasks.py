@@ -2,7 +2,6 @@ from celery import Celery
 from celery import group
 from bs4 import BeautifulSoup
 import requests
-import urllib.request
 import configparser
 import psycopg2
 
@@ -22,7 +21,6 @@ dbuser = CONFIG.get(section, 'dbuser')
 dbpassword = CONFIG.get(section, 'dbpassword')
 dbhost = CONFIG.get(section, 'dbhost')
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0"}
-#app = Celery('celery_config', broker='redis://localhost:6379/0')
 app = Celery('celery_config', broker='amqp://guest:guest@localhost:5672//')
 
 @app.task
@@ -51,22 +49,17 @@ def craw_comments(s, post_id, url):
     conn.close()
     return "ok"
 
-
 @app.task
 def craw_odd(s):
     posts_soup = BeautifulSoup(s, "html.parser")
     posts_odd = posts_soup.find_all("div", class_ = "odd")
     group(craw_post.s(post.decode()) for post in posts_odd)()
-    #for post in posts_odd:
-    #    craw_post.delay(post.decode())
 
 @app.task
 def craw_even(s):
     posts_soup = BeautifulSoup(s, "html.parser")
     posts_even = posts_soup.find_all("div", class_ = "even")
     group(craw_post.s(post.decode()) for post in posts_even)()
-    #for post in posts_even:
-    #    craw_post.delay(post.decode())
 
 
 @app.task
@@ -93,15 +86,13 @@ def craw_post(post_html):
     conn.close()
     if comments_count > 0 and env != "test":
         comments = post.find("li", class_="first")
-        #r  = requests.get(comments.a['href'], headers=HEADERS)
-        #s = requests.get(comments.a['href'], headers=HEADERS).text
-        #comments_soup = BeautifulSoup(s, "html.parser")
         craw_comments.delay(None, post_id, comments.a['href'])
     return post_id
 
 
 @app.task
 def craw_reddit(url, page, max_page):
+    dbname = CONFIG.get(section, 'dbname')
     if int(page) > int(max_page):
         return "Done"
     r  = req.get(url, headers=HEADERS)

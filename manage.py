@@ -43,15 +43,16 @@ def test():
         CONFIG.write(configfile)
 
 if __name__ == "__main__":
-   action = sys.argv[1]
-   print(action)
-   if action == "createdb":
-       print(action)
-       createdb()
-   if action == "serve":
-       serve()
-   if action == "crawl":
-       pages = sys.argv[2]
-       crawl(pages)
-   if action == "test":
-       test()
+
+    action = sys.argv[1]
+    print(action)
+    if action == "createdb":
+        print(action)
+        createdb()
+    if action == "serve":
+        serve()
+    if action == "crawl":
+        pages = sys.argv[2]
+        crawl(pages)
+    if action == "test":
+        test()

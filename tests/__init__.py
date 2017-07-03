@@ -14,4 +14,3 @@ def run():
     #tests.addTest(crawler_test)
     print(tests)
     ok = unittest.TextTestRunner().run(tests).wasSuccessful()
-    sys.exit(0 if ok else 1)

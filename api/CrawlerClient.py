@@ -43,6 +43,7 @@ class CrawlerClient(object):
         return res
 
     def get_top_posts_by_comments(self, post_type):
+        print(dbname)
         if(post_type == "all"):
             res = self.cur.execute('select row_to_json("reddit-post") FROM "reddit-post" order by comments_count desc limit 10;')
         elif(post_type == "discussion"):
@@ -52,6 +53,29 @@ class CrawlerClient(object):
         res = self.cur.fetchall()
         #print(res)
         return res
+
+    def get_top_submitter(self):
+        query = 'SELECT "username", COUNT("username") AS "value_occurrence" FROM "reddit-post" GROUP BY "username" ORDER BY "value_occurrence" DESC LIMIT 1;'
+        data = ('', )
+        res = self.cur.execute(query, data)
+        res = self.cur.fetchall()
+        return res
+
+    def get_top_commenter(self):
+        query = 'SELECT "username", COUNT("username") AS "value_occurrence" FROM "reddit-comment" GROUP BY "username" ORDER BY "value_occurrence" DESC LIMIT 10;'
+        data = ('', )
+        res = self.cur.execute(query, data)
+        res = self.cur.fetchall()
+        return res
+
+    def get_most_active_user(self):
+        #query = 'SELECT "reddit-comment".username, COUNT(*) AS "value_occurrence" FROM "reddit-comment" INNER JOIN "reddit-post"  on "reddit-comment".username = "reddit-post".username GROUP BY "reddit-comment".username ORDER BY "value_occurrence" DESC LIMIT 1;'
+        query = 'SELECT a.username, COUNT(*) AS "value_occurrence" FROM "reddit-comment" a LEFT JOIN "reddit-post" b  on a.username = b.username GROUP BY a.username ORDER BY "value_occurrence" DESC LIMIT 20;'
+        data = ('', )
+        res = self.cur.execute(query, data)
+        res = self.cur.fetchall()
+        return res
+
 
     def test(self):
         return "lele"

@@ -37,15 +37,12 @@ def create_db():
     cur = conn.cursor()
 
     # add tables
-    #cur.execute('DROP TABLE IF EXISTS "user" CASCADE;')
     cur.execute('CREATE TABLE "reddit-user" (username varchar PRIMARY KEY);')
 
-    #cur.execute('DROP TABLE IF EXISTS "post" CASCADE;')
     cur.execute('CREATE TABLE "reddit-post" (post_id varchar PRIMARY KEY, username varchar NOT NULL, \
                  domain varchar, comments_count int, score int, title varchar, url varchar, posted timestamp, \
                  FOREIGN KEY (username) REFERENCES "reddit-user" (username) ON UPDATE CASCADE ON DELETE CASCADE);')
 
-    #cur.execute('DROP TABLE IF EXISTS "comment" CASCADE;')
     cur.execute('CREATE TABLE "reddit-comment" (comment_id varchar PRIMARY KEY, votes int, username varchar NOT NULL, post_id varchar NOT NULL, \
                  FOREIGN KEY (username) REFERENCES "reddit-user" (username) ON UPDATE CASCADE ON DELETE CASCADE, \
                  FOREIGN KEY (post_id) REFERENCES "reddit-post" (post_id) ON UPDATE CASCADE ON DELETE CASCADE);')

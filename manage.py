@@ -37,7 +37,7 @@ def test():
     tests.run()
     CONFIG.set('default', 'env', 'dev')
     with open('config.cfg', 'w') as configfile:
-        CONFIG.write(configfile
+        CONFIG.write(configfile)
 
 if __name__ == "__main__":
 

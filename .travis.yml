@@ -16,4 +16,4 @@ before_script:
   - psql -c 'create database "reddit-db";' -U postgres
   - psql -c "CREATE USER craw WITH PASSWORD 'craw';" -U postgres
 # command to run tests
-script: sed -i.bak 's/^\(env =\).*/\1 test/' config.cfg | python manage.py test #python manage.py test
+script: sed -i.bak 's/^\(env =\).*/\1 test/' config.cfg | python manage.py test 

@@ -1,3 +1,0 @@
-# Playbook to deploy all the app
-
-- include: postgres-playbook.yml

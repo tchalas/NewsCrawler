@@ -1,0 +1,16 @@
+# Playbook to deploy all the app
+- include: ansible/postgres-playbook.yml
+  vars:
+    dbname: reddit-db
+- include: ansible/postgres-playbook.yml
+  vars:
+    dbname: test-db
+- include: ansible/python-playbook.yml
+
+- hosts: local
+  tasks:
+  - name: Install byobu
+    become: true
+    apt: name=byobu state=latest
+  - name: run install script
+    command: ./install-script.sh

@@ -3,15 +3,11 @@
 - hosts: local
   become: yes
   vars:
-    dbname: test-db
-
-  vars_prompt:
-    - dbuser: "dbuser"
-    - dbpassword: "dbpassword"
+    dbname: "{{dbname}}"
+    dbuser: craw
+    dbpassword: craw
 
   tasks:
-  - name: update cache
-    apt: update_cache=yes
   - name: install packages if not installed
     apt: name={{item}}
     with_items:

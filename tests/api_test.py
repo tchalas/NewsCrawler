@@ -100,7 +100,7 @@ class ApiTests(unittest.TestCase):
 
     def test_top_commenter(self):
         res = self.crawler_client.get_top_commenter()
-        self.assertEqual(res, [('testuser1', 4), ('testuser2', 3), ('testuser3', 2), ('testuser4', 1), ('mrvkino', 1)])
+        self.assertEqual(res, [('testuser1', 4)])
 
     def test_top_posts_by_poins(self):
         res = self.crawler_client.get_top_posts_by_poins("all")

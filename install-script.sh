@@ -15,14 +15,15 @@ SESSION='Crawler'
 byobu-tmux -2 new-session -d -s $SESSION
 
 byobu-tmux rename-window -t $SESSION:0 'Manage'
+byobu-tmux send-keys "source venv/bin/activate" C-m
+byobu-tmux send-keys "python manage.py createdb" C-m
 byobu-tmux send-keys "echo hola" C-m
-
 
 byobu-tmux new-window -t $SESSION:1 -n 'Celery'
 byobu-tmux send-keys "source venv/bin/activate" C-m
 byobu-tmux send-keys "celery  -A crawler.crawler_tasks worker --loglevel=info" C-m
 
-byobu-tmux new-window -t $SESSION:2 -n 'Fllower'
+byobu-tmux new-window -t $SESSION:2 -n 'Flower'
 byobu-tmux send-keys "source venv/bin/activate" C-m
 byobu-tmux send-keys "celery -A crawler.crawler_tasks flower" C-m
 

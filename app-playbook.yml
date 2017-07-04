@@ -12,5 +12,8 @@
   - name: Install byobu
     become: true
     apt: name=byobu state=latest
+  - name: Install rabbitmq-server
+    become: true
+    apt: name=byobu state=latest
   - name: run install script
     command: ./install-script.sh

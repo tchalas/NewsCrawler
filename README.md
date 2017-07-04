@@ -5,12 +5,11 @@
 Crawler for python subreddit, exposed with a Rest api
 
 # Use case  
-This app can be used for extracting and exploring useful data from a web page, in our case the python subreddit. The app is composed by two major modules.  
-The crawler is the program that reads the data from the webpage and stores them in a database after extracting the info we need. The API provides access to the stored data by querying the database to serve the received request.  
+This app can be used for extracting and exploring useful data from a web page, in our case the python subreddit. The app is composed by two major modules. The crawler is the program that reads the data from the webpage and stores them in a database after extracting the info we need. The API provides access to the stored data by querying the database to serve the received request.  
 
 
 # Specifications  
-Environment: Linux  
+Environment: Linux Ubuntu
 Language: Python3        - There was no reason not to use the last python version  
 Database: Postgresql     - The schema was clearly relational and I prefer postgres for that type of dbs as it scales quite well  
 API: Flask               - Library really useful for simple APIs  
@@ -54,7 +53,7 @@ The unitests  can be invoked by executing the following command. The sed command
 sed -i.bak 's/^\(env =\).*/\1 test/' config.cfg | python manage.py test   
 
 # Setup database  
-Passing the createdb argument to the manager will drop all the tables and recreate the database, by default called reddit-db.  The database schema is quite simple as there are 1-n user-post, post-comment, user-comment relationships. Postgres by default protects against foreign key violation. By default the credentials are craw/craw. 
+Passing the createdb argument to the manager will drop all the tables and recreate the database, by default called reddit-db.  The database schema is quite simple as there are 1-n user-post, post-comment, user-comment relationships. Postgres by default protects against foreign key violation. By default the credentials are craw/craw.
 
 # Craw  
 The crawler works by starting a celery task that will continuously create child tasks. Reddit page splits the posts to odd and even so it was a good chance for parallel processing. The tasks craw_post and craw_comments fill the database with the parsed info, using BeautifulSoup parser.  Only for the case of post the info about score and comment number is updated on the next round of crawling.  
@@ -65,7 +64,7 @@ Just execute the gunicorn.sh script. A pool of six copies of the Api will be cre
 # API     
 url_prefix='/crawl_api'  
 
-Endpoints (all are GET methods)
+Endpoints (all are GET methods)  
 /top10points/<post_type>    - Returns top 10 posts by points. <post_type>  can be "discussion", "external", "all"   
 /top10commented/<post_type> - Returns top 10 posts by comments. <post_type>  can be "discussion", "external", "all"      
 /topsubmitter               - Returns user with the most posts  
